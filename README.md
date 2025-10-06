@@ -1,6 +1,5 @@
 # FULL-STACK-JAVA-PROJECT
-# Title :- Employee Management System 
-
+# Title :- Staff-Sync
 # ABSTRACT:-
           1) The Employee Management System  is designed as more than a full-stack web application to automate and streamline Human Resource (HR) operations within an organization. 
              The system's platform handles employee records, monitors attendance, processes leave requests, and generates automated payroll.
