@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>StaffSync - Reports</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1173d4",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+              "surface-light": "#ffffff",
+              "surface-dark": "#192633",
+            },
+            fontFamily: {
+              display: ["Inter"],
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-neutral-800 dark:text-neutral-200">
+<div class="flex flex-col min-h-screen">
+    <header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-800">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-6">
+                    <a class="flex items-center gap-2 text-primary" href="index.html">
+                        <span class="material-symbols-outlined text-3xl">corporate_fare</span>
+                        <span class="text-xl font-bold text-neutral-900 dark:text-white">StaffSync</span>
+                    </a>
+                </div>
+                <nav class="hidden md:flex items-center gap-6">
+                    <a class="text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors" href="Dashboard.html">Dashboard</a>
+                    <a class="text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors" href="Employees.html">Employees</a>
+                    <a class="text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-primary dark:hover:text-primary transition-colors" href="Department.html">Departments</a>
+                    <a class="text-sm font-semibold text-primary dark:text-primary border-b-2 border-primary" href="Reports.html">Reports</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 p-4 sm:p-6 lg:p-8">
+        <div class="container mx-auto">
+            <h1 class="text-3xl font-bold mb-8 text-neutral-900 dark:text-white">Project Reports</h1>
+            <!-- Add New Project Form -->
+            <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-700/50 mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-primary">Add New Project</h2>
+                <form id="add-project-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div>
+                        <label for="project-name" class="block text-sm font-medium mb-1 text-neutral-600 dark:text-neutral-400">Project Name</label>
+                        <input id="project-name" type="text" class="w-full p-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200" required/>
+                    </div>
+                    <div>
+                        <label for="project-department" class="block text-sm font-medium mb-1 text-neutral-600 dark:text-neutral-400">Department</label>
+                        <select id="project-department" class="w-full p-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
+                            <option value="">Select Department</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="project-status" class="block text-sm font-medium mb-1 text-neutral-600 dark:text-neutral-400">Status</label>
+                        <select id="project-status" class="w-full p-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="On Hold">On Hold</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="project-priority" class="block text-sm font-medium mb-1 text-neutral-600 dark:text-neutral-400">Priority</label>
+                        <select id="project-priority" class="w-full p-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="project-due-date" class="block text-sm font-medium mb-1 text-neutral-600 dark:text-neutral-400">Due Date</label>
+                        <input id="project-due-date" type="date" class="w-full p-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200"/>
+                    </div>
+                    <div>
+                        <label for="project-description" class="block text-sm font-medium mb-1 text-neutral-600 dark:text-neutral-400">Description</label>
+                        <textarea id="project-description" class="w-full p-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200" rows="3"></textarea>
+                    </div>
+                    <div class="md:col-span-2 lg:col-span-3">
+                        <button type="submit" class="w-full md:w-auto px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+                            <span class="material-symbols-outlined align-middle mr-1" style="font-size: 1.1rem;">add</span> Add Project
+                        </button>
+                    </div>
+                </form>
+                <div id="message-box" class="mt-4 p-3 rounded-lg text-sm hidden" role="alert"></div>
+            </div>
+            <!-- Filter Form -->
+            <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-700/50 mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-primary">Filter Projects</h2>
+                <form id="filter-project-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="filter-status" class="block text-sm font-medium mb-1 text-neutral-600 dark:text-neutral-400">Status</label>
+                        <select id="filter-status" class="w-full p-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
+                            <option value="">All Statuses</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="On Hold">On Hold</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="filter-department" class="block text-sm font-medium mb-1 text-neutral-600 dark:text-neutral-400">Department</label>
+                        <select id="filter-department" class="w-full p-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200">
+                            <option value="">All Departments</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full md:w-auto px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 mt-6">
+                            Filter Projects
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- Project Status Chart -->
+            <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-700/50 mb-8">
+                <h2 class="text-xl font-semibold mb-4 text-primary">Project Status Distribution</h2>
+                <canvas id="project-status-chart" class="max-w-lg mx-auto"></canvas>
+            </div>
+            <!-- Project Table -->
+            <div class="bg-surface-light dark:bg-surface-dark rounded-xl shadow-xl border border-neutral-200 dark:border-neutral-700/50">
+                <h3 class="px-6 py-4 text-lg font-semibold">Projects</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-neutral-200 dark:divide-neutral-700">
+                        <thead class="bg-neutral-100 dark:bg-neutral-800/50 text-neutral-600 dark:text-neutral-400 uppercase tracking-wider">
+                            <tr>
+                                <th class="px-6 py-4 font-medium text-left" scope="col">Name</th>
+                                <th class="px-6 py-4 font-medium text-left hidden md:table-cell" scope="col">Department</th>
+                                <th class="px-6 py-4 font-medium text-left hidden lg:table-cell" scope="col">Rating</th>
+                                <th class="px-6 py-4 font-medium text-center" scope="col">Status</th>
+                                <th class="px-6 py-4 font-medium text-center" scope="col">Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="project-table-body" class="divide-y divide-neutral-200 dark:divide-neutral-800">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="loading-indicator" class="mt-4 hidden text-center text-primary font-medium">Loading projects...</div>
+            <div id="error-message" class="mt-4 hidden text-center text-red-500 font-medium">Error loading data.</div>
+        </div>
+    </main>
+    <footer class="mt-8 py-4 bg-surface-light dark:bg-surface-dark border-t border-neutral-200 dark:border-neutral-800">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-neutral-500 dark:text-neutral-400">
+            &copy; 2025 StaffSync. All rights reserved.
+        </div>
+        <footer class="bg-surface-light dark:bg-surface-dark border-t border-neutral-200 dark:border-neutral-800">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Company Info -->
+                    
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-2xl">Group Member</span>
+                            <h3 class="text-lg font-bold text-neutral-900 dark:text-white">(StaffSync)</h3>
+                        </div>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Rakshita Thakre
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Sanika Bodele
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Sharvari Nachne
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Himanshu Mishra
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Pawan Dighore
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-2xl">Contact Number</span>
+                            
+                        </div>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            687399
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            837648956450
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            4865409
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            586049383
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            347569834
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-2xl">Email-Id</span>
+                        </div>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Rakshita@gmail.com
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Sanika@gmail.com
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Sharvari@gmail.com
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Himanshu@gmail.com
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Pawan@gmail.com
+                        </p>
+                    </div>
+                    <hr><hr><hr>
+                    
+
+                    <!-- Quick Links -->
+                    <div class="flex flex-col gap-4">
+                        <h4 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide">Quick Links</h4>
+                        <nav class="flex flex-col gap-2">
+                            <a href="#" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors">Dashboard</a>
+                            <a href="#" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors">Employees</a>
+                            <a href="#" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors">Departments</a>
+                            <a href="#" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors">Reports</a>
+                        </nav>
+                    </div>
+
+                    <!-- Contact Information Form -->
+                    <div class="flex flex-col gap-4">
+                        <h4 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide">Contact Us</h4>
+                        <form id="contact-form" class="space-y-3">
+                            <!-- Group Name -->
+                            <div>
+                                <label for="group-name" class="text-xs font-medium text-neutral-600 dark:text-neutral-400 mb-1 block">Group Name</label>
+                                <input 
+                                    id="group-name" 
+                                    type="text" 
+                                    placeholder="Your Organization" 
+                                    class="w-full px-3 py-2 text-sm rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-800 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                                    required
+                                />
+                            </div>
+
+                            <!-- Phone Number -->
+                            <div>
+                                <label for="phone-number" class="text-xs font-medium text-neutral-600 dark:text-neutral-400 mb-1 block">Phone Number</label>
+                                <input 
+                                    id="phone-number" 
+                                    type="tel" 
+                                    placeholder="+1 (555) 123-4567" 
+                                    class="w-full px-3 py-2 text-sm rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-800 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                                    required
+                                />
+                            </div>
+
+                            <!-- Email Address -->
+                            <div>
+                                <label for="email-address" class="text-xs font-medium text-neutral-600 dark:text-neutral-400 mb-1 block">Email Address</label>
+                                <input 
+                                    id="email-address" 
+                                    type="email" 
+                                    placeholder="contact@company.com" 
+                                    class="w-full px-3 py-2 text-sm rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-800 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                                    required
+                                />
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button 
+                                type="submit" 
+                                class="w-full px-3 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-semibold rounded-lg transition-colors shadow-md"
+                            >
+                                <span class="material-symbols-outlined align-middle text-base mr-1" style="display: inline;">send</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-neutral-200 dark:border-neutral-700 my-8"></div>
+
+                <!-- Copyright and Bottom Info -->
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p class="text-xs text-neutral-500 dark:text-neutral-500 text-center md:text-left">
+                        &copy; 2025 StaffSync. All rights reserved. | Privacy Policy | Terms of Service
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <a href="#" class="text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors" title="Facebook">
+                            <span class="material-symbols-outlined">facebook</span>
+                        </a>
+                        <a href="#" class="text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors" title="Twitter">
+                            <span class="material-symbols-outlined">language</span>
+                        </a>
+                        <a href="#" class="text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors" title="LinkedIn">
+                            <span class="material-symbols-outlined">business</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <div id="success-message" class="hidden fixed bottom-4 right-4 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg">
+                Contact information submitted successfully!
+            </div>
+        </footer>
+    </footer>
+</div>
+<script src="navigation.js"></script>
+<script src="reports-fetcher.js"></script>
+</body>
+</html>
