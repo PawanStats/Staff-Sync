@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Department Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1173d4",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                        // Added new surface colors
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#192633",
+                    },
+                    fontFamily: {
+                        display: ["Inter"],
+                    },
+                    borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+                },
+            },
+        };
+    </script>
+    <style>
+        /* Base styles for a clean, dark-mode focused UI */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Using CSS variable fallback from Tailwind config */
+            background-color: var(--background-dark, #101922); 
+            color: #f9fafb;
+        }
+        .card {
+            background-color: #192633; 
+            border: 1px solid #324d67;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input:focus {
+            border-color: #1173d4;
+            box-shadow: 0 0 0 1px #1173d4;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8 text-white">Department Management</h1>
+
+        <div class="card p-6 rounded-xl mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-primary">Add New Department</h2>
+            <form id="addDepartmentForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                <div>
+                    <label for="name" class="block text-sm font-medium mb-1 text-gray-400">Department Name</label>
+
+                    <input type="text" id="name" name="name" required class="w-full rounded-lg text-sm border-gray-600 bg-gray-800 text-white focus:ring-primary focus:border-primary">
+                </div>
+                
+                <div>
+                    <label for="manager" class="block text-sm font-medium mb-1 text-gray-400">Manager Name</label>
+        
+                    <input type="text" id="manager" name="manager" required class="w-full rounded-lg text-sm border-gray-600 bg-gray-800 text-white focus:ring-primary focus:border-primary">
+                </div>
+
+             
+                <div>
+                    <label for="budget" class="block text-sm font-medium mb-1 text-gray-400">Budget ($)</label>
+                   
+                    <input type="number" id="budget" name="budget" required min="0" class="w-full rounded-lg text-sm border-gray-600 bg-gray-800 text-white focus:ring-primary focus:border-primary">
+                </div>
+
+                <div>
+                    <label for="headcount" class="block text-sm font-medium mb-1 text-gray-400">Current Headcount</label>
+                    <input type="number" id="headcount" name="headcount" required min="1" class="w-full rounded-lg text-sm border-gray-600 bg-gray-800 text-white focus:ring-primary focus:border-primary">
+                </div>
+
+                <div class="md:col-span-2 lg:col-span-4 flex justify-end mt-2">
+                    <button type="submit" class="px-6 py-2 bg-primary hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition-colors">
+                        <span class="material-symbols-outlined align-middle mr-1" style="font-size: 1.1rem;">add</span>
+                        Add Department
+                    </button>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="card p-6 rounded-xl overflow-x-auto">
+            <h2 class="text-xl font-semibold mb-4 text-primary">Existing Departments</h2>
+            
+            <table class="min-w-full divide-y divide-gray-700">
+                <thead class="bg-gray-800">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">ID</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Name</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Manager</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Budget</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Headcount</th>
+                    </tr>
+                </thead>
+                <tbody id="departmentTableBody" class="divide-y divide-gray-800">
+                    <tr><td colspan="5" class="text-center py-4 text-gray-500">Loading departments...</td></tr>
+                </tbody>
+            </table>
+        </div>
+<footer class="bg-surface-light dark:bg-surface-dark border-t border-neutral-200 dark:border-neutral-800">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-2xl">Group Member</span>
+                            <h3 class="text-lg font-bold text-neutral-900 dark:text-white">(StaffSync)</h3>
+                        </div>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Rakshita Thakre
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Sanika Bodele
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Sharvari Nachne
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Himanshu Mishra
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Pawan Dighore
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-2xl">Contact Number</span>
+                            
+                        </div>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            687399
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            837648956450
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            4865409
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            586049383
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            347569834
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-2xl">Email-Id</span>
+                        </div>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Rakshita@gmail.com
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Sanika@gmail.com
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Sharvari@gmail.com
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Himanshu@gmail.com
+                        </p>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                            Pawan@gmail.com
+                        </p>
+                    </div>
+                    <hr><hr><hr>
+                    
+
+                    <div class="flex flex-col gap-4">
+                        <h4 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide">Quick Links</h4>
+                        <nav class="flex flex-col gap-2">
+                            <a href="#" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors">Dashboard</a>
+                            <a href="#" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors">Employees</a>
+                            <a href="#" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors">Departments</a>
+                            <a href="#" class="text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary dark:hover:text-primary transition-colors">Reports</a>
+                        </nav>
+                    </div>
+
+
+                    <div class="flex flex-col gap-4">
+                        <h4 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide">Contact Us</h4>
+                        <form id="contact-form" class="space-y-3">
+            
+                            <div>
+                                <label for="group-name" class="text-xs font-medium text-neutral-600 dark:text-neutral-400 mb-1 block">Group Name</label>
+                                <input 
+                                    id="group-name" 
+                                    type="text" 
+                                    placeholder="Your Organization" 
+                                    class="w-full px-3 py-2 text-sm rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-800 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label for="phone-number" class="text-xs font-medium text-neutral-600 dark:text-neutral-400 mb-1 block">Phone Number</label>
+                                <input 
+                                    id="phone-number" 
+                                    type="tel" 
+                                    placeholder="+1 (555) 123-4567" 
+                                    class="w-full px-3 py-2 text-sm rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-800 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                                    required
+                                />
+                            </div>
+
+                            <div>
+                                <label for="email-address" class="text-xs font-medium text-neutral-600 dark:text-neutral-400 mb-1 block">Email Address</label>
+                                <input 
+                                    id="email-address" 
+                                    type="email" 
+                                    placeholder="contact@company.com" 
+                                    class="w-full px-3 py-2 text-sm rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-800 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                                    required
+                                />
+                            </div>
+
+                            <button 
+                                type="submit" 
+                                class="w-full px-3 py-2 bg-primary hover:bg-primary/90 text-white text-sm font-semibold rounded-lg transition-colors shadow-md"
+                            >
+                                <span class="material-symbols-outlined align-middle text-base mr-1" style="display: inline;">send</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="border-t border-neutral-200 dark:border-neutral-700 my-8"></div>
+
+                <!-- Copyright and Bottom Info -->
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p class="text-xs text-neutral-500 dark:text-neutral-500 text-center md:text-left">
+                        &copy; 2025 StaffSync. All rights reserved. | Privacy Policy | Terms of Service
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <a href="#" class="text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors" title="Facebook">
+                            <span class="material-symbols-outlined">facebook</span>
+                        </a>
+                        <a href="#" class="text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors" title="Twitter">
+                            <span class="material-symbols-outlined">language</span>
+                        </a>
+                        <a href="#" class="text-neutral-600 dark:text-neutral-400 hover:text-primary transition-colors" title="LinkedIn">
+                            <span class="material-symbols-outlined">business</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="success-message" class="hidden fixed bottom-4 right-4 bg-green-500 text-white px-4 py-3 rounded-lg shadow-lg">
+                Contact information submitted successfully!
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchDepartments();
+
+            document.getElementById('addDepartmentForm').addEventListener('submit', handleFormSubmit);
+        });
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0, 
+                maximumFractionDigits: 0
+            }).format(value);
+        }
+
+
+        function renderDepartmentsTable(departments) {
+            const tableBody = document.getElementById('departmentTableBody');
+            tableBody.innerHTML = ''; 
+
+            if (departments.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-gray-500">No departments found. Add one above!</td></tr>';
+                return;
+            }
+
+            departments.forEach(dept => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-800 transition-colors';
+                
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">${dept.id}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold">${dept.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">${dept.manager}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-green-400">${formatCurrency(dept.budget)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">${dept.headcount}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+
+        async function fetchDepartments() {
+            const tableBody = document.getElementById('departmentTableBody');
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-primary">Loading departments...</td></tr>';
+            
+            try {
+                const response = await fetch('/api/departments');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const departments = await response.json();
+                renderDepartmentsTable(departments);
+
+            } catch (error) {
+                console.error('Error fetching departments:', error);
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-red-500">Error loading data. Is the Spring Boot API running?</td></tr>';
+            }
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault(); 
+
+            const form = e.target;
+            const newDepartment = {
+                name: form.name.value,
+                manager: form.manager.value,
+                budget: parseInt(form.budget.value, 10), 
+                headcount: parseInt(form.headcount.value, 10),
+            };
+
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="material-symbols-outlined align-middle mr-1" style="font-size: 1.1rem;">schedule</span> Adding...';
+
+            try {
+                const response = await fetch('/api/departments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newDepartment), 
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Failed to add department. Status: ${response.status}`);
+                }
+
+                
+                form.reset(); 
+                fetchDepartments(); 
+
+            } catch (error) {
+                console.error('Error adding department:', error);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<span class="material-symbols-outlined align-middle mr-1" style="font-size: 1.1rem;">add</span> Add Department';
+            }
+        }
+    </script>
+</body>
+</html>
