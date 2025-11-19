@@ -17,50 +17,84 @@ StaffSync is a web application for managing employees, departments, and projects
 
 ## Project Structure
 ```
-staff-sync/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/example/staff_sync/
-│   │   │       ├── StaffSyncApplication.java      # Main Spring Boot application
-│   │   │       ├── config/
-│   │   │       │   └── SecurityConfig.java       # Security configuration for JWT
-│   │   │       ├── model/
-│   │   │       │   ├── Department.java           # Department entity
-│   │   │       │   ├── Employee.java             # Employee entity
-│   │   │       │   ├── Project.java              # Project entity
-│   │   │       │   └── User.java                 # User entity for authentication
-│   │   │       ├── controller/
-│   │   │       │   ├── DepartmentController.java # REST API for departments
-│   │   │       │   ├── EmployeeController.java   # REST API for employees
-│   │   │       │   ├── ProjectController.java    # REST API for projects
-│   │   │       │   └── AuthController.java       # REST API for login
-│   │   │       ├── repository/
-│   │   │       │   ├── DepartmentRepository.java # JPA repository for departments
-│   │   │       │   ├── EmployeeRepository.java   # JPA repository for employees
-│   │   │       │   ├── ProjectRepository.java    # JPA repository for projects
-│   │   │       │   └── UserRepository.java       # JPA repository for users
-│   │   │       ├── service/
-│   │   │       │   └── UserService.java          # Service for authentication logic
-│   │   ├── resources/
-│   │   │   ├── application.properties            # Spring Boot configuration
-│   │   │   ├── schema.sql                        # Database schema
-│   │   │   └── static/
-│   │   │       ├── index.html                    # Landing page
-│   │   │       ├── login.html                    # Login page
-│   │   │       ├── Employees.html                # Employee management page
-│   │   │       ├── Department.html               # Department page
-│   │   │       ├── Dashboard.html                # Dashboard page
-│   │   │       ├── Reports.html                  # Reports page
-│   │   │       ├── navigation.js                 # Navigation and auth checks
-│   │   │       ├── employee-fetcher.js           # Employee data handling
-│   │   │       ├── dashboard-fetcher.js          # Dashboard data handling
-│   │   │       ├── reports-fetcher.js            # Reports data handling
-│   │   │       └── login.js                      # Login form handling
-├── pom.xml                                       # Maven dependencies
-├── README.md                                     # Project documentation
-```
+Staff-Sync-main/
+├── README.markdown
+├── Staff-Sync/
+│   └── staff-sync/
+│       ├── package.json
+│       └── staff-sync/
+│           ├── HELP.md
+│           ├── mvnw
+│           ├── mvnw.cmd
+│           ├── pom.xml
+│           ├── src/
+│           │   ├── main/
+│           │   │   ├── java/
+│           │   │   │   └── com/
+│           │   │   │       └── example/
+│           │   │   │           └── staff_sync/
+│           │   │   │               ├── Department.java
+│           │   │   │               ├── DepartmentController.java
+│           │   │   │               ├── DepartmentRepository.java
+│           │   │   │               ├── Employee.java
+│           │   │   │               ├── EmployeeController.java
+│           │   │   │               ├── EmployeeRepository.java
+│           │   │   │               ├── Project.java
+│           │   │   │               ├── ProjectController.java
+│           │   │   │               ├── ProjectRepository.java
+│           │   │   │               └── StaffSyncApplication.java
+│           │   │   └── resources/
+│           │   │       ├── application.properties
+│           │   │       ├── schema.sql
+│           │   │       └── static/
+│           │   │           ├── dashboard-fetcher.js
+│           │   │           ├── Dashboard.html
+│           │   │           ├── Department.html
+│           │   │           ├── employee-fetcher.js
+│           │   │           ├── employee.json
+│           │   │           ├── Employees.html
+│           │   │           ├── index.html
+│           │   │           ├── login.html
+│           │   │           ├── login.js
+│           │   │           ├── navigation.js
+│           │   │           ├── package.json
+│           │   │           ├── reports-fetcher.js
+│           │   │           ├── Reports.html
+│           │   │           └── server/
+│           │   │               └── server.js
+│           │   └── test/
+│           │       └── java/
+│           │           └── com/
+│           │               └── example/
+│           │                   └── staff_sync/
+│           │                       └── StaffSyncApplicationTests.java
+│           └── target/
+│               ├── classes/
+│               │   ├── application.properties
+│               │   ├── schema.sql
+│               │   ├── com/
+│               │   │   └── example/
+│               │   │       └── staff_sync/
+│               │   └── static/
+│               │       ├── dashboard-fetcher.js
+│               │       ├── Dashboard.html
+│               │       ├── Department.html
+│               │       ├── employee-fetcher.js
+│               │       ├── employee.json
+│               │       ├── Employees.html
+│               │       ├── index.html
+│               │       ├── login.html
+│               │       ├── login.js
+│               │       ├── navigation.js
+│               │       ├── package.json
+│               │       ├── reports-fetcher.js
+│               │       ├── Reports.html
+│               │       └── server/
+│               │           └── server.js
+│               └── test-classes/
+│                   └── com/
+│                       └── example/
+│                           └── staff_sync/
 
-
-## License
+##License
 For educational purposes, no specific license.
